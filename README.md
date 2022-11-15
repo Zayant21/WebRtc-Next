@@ -1,9 +1,14 @@
-WEBRTC ON NEXT.JS
+#### WEBRTC ON NEXT.JS
 
-GroupMembers:
+## GroupMembers:
 
-Admond
-Aman
-Jimmy
-Adam
-Zayan
+Admond  
+Aman  
+Jimmy  
+Adam   
+Zayan  
+
+
+## Instructions to Run:  
+"npm install"  
+"npm run dev"
