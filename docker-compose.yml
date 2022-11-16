@@ -11,3 +11,4 @@ services:
       - ./public:/app/public
       - ./styles:/app/styles
       - ./hooks:/app/hooks
+      - ./img:/app/img
