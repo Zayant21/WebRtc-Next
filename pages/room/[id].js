@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 import useSocket from '../../hooks/useSocket';
+import styles from '../../styles/Home.module.css';
 
 const ICE_SERVERS = {
   iceServers: [
@@ -249,20 +250,30 @@ const Room = () => {
     router.push('/')
   };
 
+
+
+
+
+
+  
   return (
-    <div>
-      <video autoPlay ref={userVideoRef} />
-      <video autoPlay ref={peerVideoRef} />
-      <button onClick={toggleMic} type="button">
+  <div className={styles.index}>
+    <section className={styles.mainbox}>
+      <video className={styles.right} autoPlay ref={peerVideoRef} />
+      <video className={styles.left} autoPlay ref={userVideoRef} />
+    </section>
+    <section className= {styles.buttonsection}>
+      <button className={styles.button} onClick={toggleMic} type="button">
         {micActive ? 'Mute Mic' : 'UnMute Mic'}
       </button>
-      <button onClick={leaveRoom} type="button">
+      <button className={styles.redbutton} onClick={leaveRoom} type="button">
         Leave
       </button>
-      <button onClick={toggleCamera} type="button">
+      <button className={styles.button} onClick={toggleCamera} type="button">
         {cameraActive ? 'Stop Camera' : 'Start Camera'}
       </button>
-    </div>
+    </section>
+  </div>
   );
 };
 
