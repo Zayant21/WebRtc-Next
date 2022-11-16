@@ -2,7 +2,7 @@
 
 ## GroupMembers:
 
-Admond  
+Edmond  
 Aman  
 Jimmy  
 Adam   
