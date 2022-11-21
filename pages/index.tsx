@@ -25,13 +25,18 @@ export default function Home() {
       <div className={styles.heading}>
       <h2>WebRTC with Next.js Socket.io (Beta)</h2>
       </div>
-  
+
+      <div className ={styles.image_container}>
+        <h3></h3>
+      </div>
+
       <main className={styles.main}>
       <h1>Lets Join a Room !</h1>
       
-       <input onChange={(e) => setRoomName(e.target.value)} value={roomName} className={styles.heading2} />
-       <button onClick={joinRoom} type="button" className={styles.fancybutton}>Join Room</button>
+      <input onChange={(e) => setRoomName(e.target.value)} value={roomName} className={styles.heading2} />
+      <button onClick={joinRoom} type="button" className={styles.fancybutton}>Join Room</button>
       </main>
       </div>
   )
 }
+

@@ -22,7 +22,7 @@ const Room = () => {
   const peerVideoRef = useRef();
   const rtcConnectionRef = useRef(null);
   const socketRef = useRef();
-  const userStreamRef = useRef();
+  const userStreamRef = useRef(false);
   const hostRef = useRef(false);
 
   const { id: roomName } = router.query;
