@@ -1,7 +1,7 @@
 
 .index_container {
   padding: 2rem;
-  background-image: url("../img/main/new_gradient.jpg");
+  background-image: url("../img/main/new_background.png");
   height: 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -170,7 +170,7 @@ text-align: center;
 
 .index{
   background-color: #abc0ca;
-  background-image: url("../img/main/new_video.jpg");
+  background-image: url("../img/main/new_gradient.jpg");
   min-height: 100vh;
 }
 
