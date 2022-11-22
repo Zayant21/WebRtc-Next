@@ -172,6 +172,9 @@ text-align: center;
   background-color: #abc0ca;
   background-image: url("../img/main/new_gradient.jpg");
   min-height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .mainbox{
