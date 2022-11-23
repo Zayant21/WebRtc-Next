@@ -50,6 +50,10 @@ const Room = () => {
     socketRef.current.on('answer', handleAnswer);
     socketRef.current.on('ice-candidate', handlerNewIceCandidateMsg);
 
+    socketRef.current.on('chat-message', data => {
+      appendMessage(message => [...message, data])
+    })
+
     // clear up after
     return () => socketRef.current.disconnect();
   }, [roomName]);
@@ -228,6 +232,24 @@ const Room = () => {
     setCameraActive((prev) => !prev);
   };
 
+
+  const sendMessage = () => {
+
+    messageForm.addEventListener('button', e => {
+      e.preventDefault();
+      const message = messageInput.value;
+      appendMessage(`You: ${message}`);
+      socketRef.emit('send-chat-message', message);
+      messageInput.value = '';
+    });
+  }
+
+  function appendMessage(message) {
+    const messageElement = document.createElement('div');
+    messageElement.innerText = message;
+    messageContainer.append(messageElement);
+  }
+
   const leaveRoom = () => {
     socketRef.current.emit('leave', roomName); // Let's the server know that user has left the room.
 
@@ -252,27 +274,42 @@ const Room = () => {
 
 
 
-
-
-
-  
   return (
-  <div className={styles.index}>
-    <section className={styles.mainbox}>
-      <video className={styles.right} autoPlay ref={peerVideoRef} />
-      <video className={styles.left} autoPlay ref={userVideoRef} />
-    </section>
-    <section className= {styles.buttonsection}>
-      <button className={styles.button} onClick={toggleMic} type="button">
-        {micActive ? 'Mute Mic' : 'UnMute Mic'}
-      </button>
-      <button className={styles.redbutton} onClick={leaveRoom} type="button">
-        Leave
-      </button>
-      <button className={styles.button} onClick={toggleCamera} type="button">
-        {cameraActive ? 'Stop Camera' : 'Start Camera'}
-      </button>
-    </section>
+  <div className={styles.room}>
+
+    <div className={styles.index}>
+      <section className={styles.mainbox}>
+        <video className={styles.right} autoPlay ref={peerVideoRef} />
+        <video className={styles.left} autoPlay ref={userVideoRef} />
+      </section>
+      <section className= {styles.buttonsection}>
+        <button className={styles.button} onClick={toggleMic} type="button">
+          {micActive ? 'Mute Mic' : 'UnMute Mic'}
+        </button>
+        <button className={styles.redbutton} onClick={leaveRoom} type="button">
+          Leave
+        </button>
+        <button className={styles.button} onClick={toggleCamera} type="button">
+          {cameraActive ? 'Stop Camera' : 'Start Camera'}
+        </button>
+      </section>
+    </div>
+
+    <div className={styles.chat}>
+      
+      <div className={styles.chat_window}>
+          <div className={styles.messages}>
+          </div>
+      </div>
+
+      <div id="message-container"></div>
+      <form id="send-container">
+        <input type="text" id="message-input"/>
+        <button type="submit" id="send-button">Send</button>
+      </form>
+
+    </div>
+
   </div>
   );
 };

@@ -60,6 +60,10 @@ const SocketHandler = (req: any, res: any) => {
       socket.broadcast.to(roomName).emit("leave");
     });
 
+    socket.on('send-chat-message', (message) => {
+      socket.broadcast.emit('chat-message', { message: message, name: socket.id});
+    })
+
   });
   return res.end();
 };
