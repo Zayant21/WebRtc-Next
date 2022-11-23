@@ -55,14 +55,14 @@ const SocketHandler = (req: any, res: any) => {
       socket.broadcast.to(roomName).emit("answer", answer); // Sends Answer to the other peer in the room.
     });
 
-    socket.on("leave", (roomName) => {
-      socket.leave(roomName);
-      socket.broadcast.to(roomName).emit("leave");
+    socket.on('send_message', (data, roomName) => {
+      socket.to(roomName).emit('receive_message', data);
     });
 
-    socket.on('send-chat-message', (message) => {
-      socket.broadcast.emit('chat-message', { message: message, name: socket.id});
-    })
+    socket.on("leave", (roomName) => {
+      socket.leave(roomName);
+      socket.to(roomName).emit("leave");
+    });
 
   });
   return res.end();

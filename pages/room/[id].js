@@ -17,6 +17,9 @@ const Room = () => {
   const [micActive, setMicActive] = useState(true);
   const [cameraActive, setCameraActive] = useState(true);
 
+  const [currentMessage, setCurrentMessage] = useState(" ");
+  const [messageList, setMessageList] = useState([]);
+
   const router = useRouter();
   const userVideoRef = useRef();
   const peerVideoRef = useRef();
@@ -49,10 +52,6 @@ const Room = () => {
     socketRef.current.on('offer', handleReceivedOffer);
     socketRef.current.on('answer', handleAnswer);
     socketRef.current.on('ice-candidate', handlerNewIceCandidateMsg);
-
-    socketRef.current.on('chat-message', data => {
-      appendMessage(message => [...message, data])
-    })
 
     // clear up after
     return () => socketRef.current.disconnect();
@@ -232,23 +231,24 @@ const Room = () => {
     setCameraActive((prev) => !prev);
   };
 
+  const sendMessage = async () => {
+    if (currentMessage !== "") {
+      const messageData =  {
+        message: currentMessage,
+      }
 
-  const sendMessage = () => {
+      await socketRef.current.emit("send_message", messageData, roomName);
+      setMessageList((list) => [...list, messageData]);
+      setCurrentMessage("");
+    }
+  };
 
-    messageForm.addEventListener('button', e => {
-      e.preventDefault();
-      const message = messageInput.value;
-      appendMessage(`You: ${message}`);
-      socketRef.emit('send-chat-message', message);
-      messageInput.value = '';
+  useEffect(() => {
+    socketRef.current.on("receive_message", (data) => {
+      setMessageList((list) => [...list, data]);
     });
-  }
+  }, [socketRef.current]);
 
-  function appendMessage(message) {
-    const messageElement = document.createElement('div');
-    messageElement.innerText = message;
-    messageContainer.append(messageElement);
-  }
 
   const leaveRoom = () => {
     socketRef.current.emit('leave', roomName); // Let's the server know that user has left the room.
@@ -273,7 +273,6 @@ const Room = () => {
   };
 
 
-
   return (
   <div className={styles.room}>
 
@@ -296,16 +295,25 @@ const Room = () => {
     </div>
 
     <div className={styles.chat}>
-      
+
       <div className={styles.chat_window}>
           <div className={styles.messages}>
           </div>
       </div>
 
-      <div id="message-container"></div>
-      <form id="send-container">
-        <input type="text" id="message-input"/>
-        <button type="submit" id="send-button">Send</button>
+      <div id="message_container">
+        {messageList.map((messageContent) => {
+          return <h1>{messageContent.message}</h1>;
+        })} 
+      </div>
+      <form id="send_container">
+        <input type="text" id="message_input" placeholder="Type message here..." 
+        onChange={(event) => {
+          setCurrentMessage(event.target.value);}} 
+        onKeyPress={(event) => {
+            event.key === "Enter" && sendMessage();
+          }}/>
+        <button id="send_button" onClick={sendMessage} type="button" >Send</button>
       </form>
 
     </div>
