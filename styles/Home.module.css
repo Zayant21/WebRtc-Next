@@ -11,9 +11,32 @@
   overflow-y: scroll;
 }
 
+
 .chat_window::-webkit-scrollbar {
   display: none;
 }
+
+.message_container {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message_content { 
+  padding: 0px 17px 0px;
+  margin: 10px 0px;
+}
+
+.message_container > input {
+  height: 50px;
+  flex: 1;
+  font-size: 1rem;
+  border-radius: 5px;
+  padding-left: 20px;
+  border: none;
+  margin: 0px 20px 0px 0px;
+} 
 
 .send_button {
   display: inline-block;
@@ -31,21 +54,52 @@
   transition: all .2s ease-out;
 }
 
-.message_container {
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.each_text {
+  padding-left: 10px;
 }
 
-.message_container > input {
-  height: 50px;
-  flex: 1;
-  font-size: 1rem;
+.id_text {
+  margin-bottom: 0px;
+  padding-left: 5px;
+  font-size: 12px;
+}
+
+.communication {
+  width: auto;
+  height: auto;
+  min-height: 40px;
+  max-width: 100%;
+  background-color: #5b41b9;
   border-radius: 5px;
-  padding-left: 20px;
-  border: none;
-  margin: 0px 20px 0px 0px;
+  color: white;
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+  margin-left: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  margin-top: 3px;
+  font-size: 20px;
+  padding-left: 10px;
+}
+
+#you {
+  justify-content: flex-start;
+}
+
+#you .communication {
+  justify-content: flex-start;
+}
+
+#other {
+  justify-content: flex-end;
+}
+
+#other .communication {
+  justify-content: flex-end;
+  background-color: cornflowerblue;
 }
 
 .room {

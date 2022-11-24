@@ -17,7 +17,7 @@ const Room = () => {
   const [micActive, setMicActive] = useState(true);
   const [cameraActive, setCameraActive] = useState(true);
 
-  const [currentMessage, setCurrentMessage] = useState(" ");
+  const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
 
   const router = useRouter();
@@ -231,13 +231,13 @@ const Room = () => {
     setCameraActive((prev) => !prev);
   };
 
-  const sendMessage = async () => {
+  const sendMessage = () => {
     if (currentMessage !== "") {
       const messageData =  {
+        id: socketRef.current.id,
         message: currentMessage,
       }
-
-      await socketRef.current.emit("send_message", messageData, roomName);
+      socketRef.current.emit("send_message", messageData, roomName);
       setMessageList((list) => [...list, messageData]);
       setCurrentMessage("");
     }
@@ -245,8 +245,13 @@ const Room = () => {
 
   useEffect(() => {
     socketRef.current.on("receive_message", (data) => {
-      setMessageList((list) => [...list, data]);
+      setMessageList((list) => {
+        return [...list, data]
+      });
     });
+    return function cleanup() {
+      socketRef.current.removeListener("receive_message");
+    };
   }, [socketRef.current]);
 
 
@@ -295,25 +300,26 @@ const Room = () => {
     </div>
 
     <div className={styles.chat}>
-
-      <div className={styles.chat_window}>
-          <div className={styles.messages}>
-          </div>
-      </div>
-
-      <div id="message_container">
+      <div className={styles.chat_window}> </div>
+      <div className={styles.message_content}>
         {messageList.map((messageContent) => {
-          return <h1>{messageContent.message}</h1>;
+          return (
+            <div>
+              <p className={styles.id_text}>User ID: {messageContent.id}</p>
+              <div className={styles.communication}>
+                <p>{messageContent.message}</p>
+              </div>
+            </div>
+          );
         })} 
       </div>
-      <form id="send_container">
-        <input type="text" id="message_input" placeholder="Type message here..." 
+
+      <form className={styles.message_container}>
+        <input type="text" placeholder="Type message here..." value={currentMessage}
         onChange={(event) => {
           setCurrentMessage(event.target.value);}} 
-        onKeyPress={(event) => {
-            event.key === "Enter" && sendMessage();
-          }}/>
-        <button id="send_button" onClick={sendMessage} type="button" >Send</button>
+          />
+        <button className={styles.send_button} onClick={sendMessage} type="button" >Send</button>
       </form>
 
     </div>
