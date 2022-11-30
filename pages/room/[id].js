@@ -17,12 +17,15 @@ const Room = () => {
   const [micActive, setMicActive] = useState(true);
   const [cameraActive, setCameraActive] = useState(true);
 
+  const [currentMessage, setCurrentMessage] = useState("");
+  const [messageList, setMessageList] = useState([]);
+
   const router = useRouter();
   const userVideoRef = useRef();
   const peerVideoRef = useRef();
   const rtcConnectionRef = useRef(null);
   const socketRef = useRef();
-  const userStreamRef = useRef();
+  const userStreamRef = useRef(false);
   const hostRef = useRef(false);
 
   const { id: roomName } = router.query;
@@ -228,6 +231,30 @@ const Room = () => {
     setCameraActive((prev) => !prev);
   };
 
+  const sendMessage = () => {
+    if (currentMessage !== "") {
+      const messageData =  {
+        id: socketRef.current.id,
+        message: currentMessage,
+      }
+      socketRef.current.emit("send_message", messageData, roomName);
+      setMessageList((list) => [...list, messageData]);
+      setCurrentMessage("");
+    }
+  };
+
+  useEffect(() => {
+    socketRef.current.on("receive_message", (data) => {
+      setMessageList((list) => {
+        return [...list, data]
+      });
+    });
+    return function cleanup() {
+      socketRef.current.removeListener("receive_message");
+    };
+  }, [socketRef.current]);
+
+
   const leaveRoom = () => {
     socketRef.current.emit('leave', roomName); // Let's the server know that user has left the room.
 
@@ -251,28 +278,52 @@ const Room = () => {
   };
 
 
-
-
-
-
-  
   return (
-  <div className={styles.index}>
-    <section className={styles.mainbox}>
-      <video className={styles.right} autoPlay ref={peerVideoRef} />
-      <video className={styles.left} autoPlay ref={userVideoRef} />
-    </section>
-    <section className= {styles.buttonsection}>
-      <button className={styles.button} onClick={toggleMic} type="button">
-        {micActive ? 'Mute Mic' : 'UnMute Mic'}
-      </button>
-      <button className={styles.redbutton} onClick={leaveRoom} type="button">
-        Leave
-      </button>
-      <button className={styles.button} onClick={toggleCamera} type="button">
-        {cameraActive ? 'Stop Camera' : 'Start Camera'}
-      </button>
-    </section>
+  <div className={styles.room}>
+
+    <div className={styles.index}>
+      <section className={styles.mainbox}>
+        <video className={styles.right} autoPlay ref={peerVideoRef} />
+        <video className={styles.left} autoPlay ref={userVideoRef} />
+      </section>
+      <section className= {styles.buttonsection}>
+        <button className={styles.button} onClick={toggleMic} type="button">
+          {micActive ? 'Mute Mic' : 'UnMute Mic'}
+        </button>
+        <button className={styles.redbutton} onClick={leaveRoom} type="button">
+          Leave
+        </button>
+        <button className={styles.button} onClick={toggleCamera} type="button">
+          {cameraActive ? 'Stop Camera' : 'Start Camera'}
+        </button>
+      </section>
+    </div>
+
+    <div className={styles.chat}>
+      <div className={styles.chat_window}> </div>
+      <div className={styles.message_content}>
+        {messageList.map((messageContent) => {
+          return (
+            <div>
+              <p className={styles.id_text}>User ID: {messageContent.id}</p>
+              <div className={styles.communication}>
+                <p>{messageContent.message}</p>
+              </div>
+            </div>
+          );
+        })} 
+      </div>
+
+      <form className={styles.message_container}>
+        <input type="text" placeholder="Type message here..." value={currentMessage}
+        onChange={(event) => {
+          setCurrentMessage(event.target.value);}} 
+          />
+        <button className={styles.send_button} onClick={sendMessage} type="button" >Send</button>
+      </form>
+
+    </div>
+
   </div>
   );
 };

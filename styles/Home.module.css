@@ -1,41 +1,162 @@
+/* Chat App CSS */
+.chat {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: #242f41;
+}
 
-.index_container {
-  padding: 2rem;
-  background-image: url("../img/main/back1.jpg");
-  
+.chat_window {
+  flex-grow: 1;
+  overflow-y: scroll;
 }
 
 
+.chat_window::-webkit-scrollbar {
+  display: none;
+}
+
+.message_container {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message_content { 
+  padding: 0px 17px 0px;
+  margin: 10px 0px;
+}
+
+.message_container > input {
+  height: 50px;
+  flex: 1;
+  font-size: 1rem;
+  border-radius: 5px;
+  padding-left: 20px;
+  border: none;
+  margin: 0px 20px 0px 0px;
+} 
+
+.send_button {
+  display: inline-block;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  font-weight: 600;
+  color: #fff;
+  font-size: 14px;
+  height: 38px;
+  padding: 8px 24px;
+  border-radius: 50px;
+  background-image: linear-gradient(180deg,#7c8aff,#3c4fe0);
+  box-shadow: 0 4px 11px 0 rgb(37 44 97 / 15%), 0 1px 3px 0 rgb(93 100 148 / 20%);
+  transition: all .2s ease-out;
+}
+
+.each_text {
+  padding-left: 10px;
+}
+
+.id_text {
+  margin-bottom: 0px;
+  padding-left: 5px;
+  font-size: 12px;
+}
+
+.communication {
+  width: auto;
+  height: auto;
+  min-height: 40px;
+  max-width: 100%;
+  background-color: #5b41b9;
+  border-radius: 5px;
+  color: white;
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+  margin-left: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  margin-top: 3px;
+  font-size: 20px;
+  padding-left: 10px;
+}
+
+#you {
+  justify-content: flex-start;
+}
+
+#you .communication {
+  justify-content: flex-start;
+}
+
+#other {
+  justify-content: flex-end;
+}
+
+#other .communication {
+  justify-content: flex-end;
+  background-color: cornflowerblue;
+}
+
+.room {
+  display: flex;
+}
+
+/*  */
+
+.index_container {
+  padding: 2rem;
+  background-image: url("../img/main/new_background.png");
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.image_container {
+  background-image: url("../img/main/logo.png");
+  height: 300px;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 15%;
+}
 
 .heading{
-color: rgb(246, 243, 240);
-font-family: 'Lucida Sans';
+color: #cace06;
+font-family: 'Verdana';
+font-size: 25px;
 border-radius: 10px;
+text-align: center;
 }
 
 .heading2{
   color: rgb(0, 0, 0);
-  font-family: 'Times New Roman', Times, serif;
+  font-family: 'Arial';
   font-size: larger;
   border-radius: 10px;
   background-color:rgba(255, 255, 255, 0.78);
   padding:1%;
   width: 300px;
-  height: 50px;
+  height: -10px;
   margin-top: .5cm;
   margin-bottom:.5cm;
-  
   }
 
 .main {
-  color: #fbfbff;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: medium;
-  min-height: 100vh;
+  color: #cace06;
+  font-family:'Tahoma';
+  font-size: 25px;
+  min-height: 60vh;
   padding: 1rem 0;
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: center top 50px;
   align-items: center;
 }
 
@@ -158,14 +279,16 @@ border-radius: 10px;
 
 .index{
   background-color: #abc0ca;
-  background-image: url("../img/main/back2.jpg");
+  background-image: url("../img/main/new_gradient.jpg");
   min-height: 100vh;
+  width: 1300px;
 }
+
 .mainbox{
   width:fit-content;
   padding: 1%;
   overflow:hidden;
-  margin-left: 25%;
+  margin-left: 28.25%;
   margin-bottom: 5px;
 }
 
@@ -187,10 +310,10 @@ border-radius: 10px;
 
 .fancybutton {
   
-  background-color: #c2fbd7;
+  background-color: #002afd;
   border-radius: 100px;
-  box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
-  color: green;
+  box-shadow: rgba(44, 118, 187, 0.2) 0 -25px 18px -14px inset,rgba(44, 187, 99, .15) 0 1px 2px,rgba(44, 187, 99, .15) 0 2px 4px,rgba(44, 187, 99, .15) 0 4px 8px,rgba(44, 187, 99, .15) 0 8px 16px,rgba(44, 187, 99, .15) 0 16px 32px;
+  color: rgb(201, 211, 56);
   cursor: pointer;
   display: inline-block;
   font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
@@ -279,3 +402,4 @@ border-radius: 10px;
 .buttonsection{
   margin-left: 44%;
 }
+
